@@ -26,6 +26,50 @@ class sales_orders extends Controller
         $data = $query->limit(10)->get();
         return response()->json($data);
     }
+
+    public function indexWithTarget(Request $request)
+    {
+
+
+
+        $query = \App\Models\sales_orders::join('sales_order_items', 'sales_orders.id', '=', 'sales_order_items.order_id')
+            ->join('sales_targets', 'sales_orders.sales_id', '=', 'sales_targets.sales_id')
+            ->select('sales_orders.*', 'sales_order_items.*', 'sales_targets.*');
+
+        if ($request->has('sales_id')) {
+            $query->where('sales_orders.sales_id', $request->sales_id);
+        }
+
+
+        // Order by month (created_at)
+        $query->orderByRaw('YEAR(sales_orders.created_at), MONTH(sales_orders.created_at)');
+
+        $data = $query->limit(10)->get();
+        return response()->json($data);
+    }
+
+    public function indexWithTargetMonthly(Request $request)
+    {
+        // Use filter if provided, otherwise use current month/year
+        $month = $request->input('month', now()->month);
+        $year = $request->input('year', now()->year);
+
+        $query = \App\Models\sales_orders::join('sales_order_items', 'sales_orders.id', '=', 'sales_order_items.order_id')
+            ->join('sales_targets', 'sales_orders.sales_id', '=', 'sales_targets.sales_id')
+            ->select('sales_orders.*', 'sales_order_items.*', 'sales_targets.*')
+            ->whereMonth('sales_orders.created_at', $month)
+            ->whereYear('sales_orders.created_at', $year)
+            ->limit(10);
+
+
+        $query->orderByRaw('YEAR(sales_orders.created_at), MONTH(sales_orders.created_at)');
+
+        $data = $query->get();
+        return response()->json($data);
+    }
+
+    public function all() {}
+
     public function show($id)
     {
         $data = \App\Models\sales_orders::find($id);

@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// use App\Models\customers;
-class customers extends Controller
+use App\Models\Customer;
+class CustomerController  extends Controller
 {
     public function index()
     {
-        $data = \App\Models\customers::all();
+        $data = Customer::all();
         return response()->json($data);
     }
     public function show($id)
     {
-        $data = \App\Models\customers::find($id);
+        $data = Customer::find($id);
         if ($data) {
             return response()->json($data);
         } else {
@@ -29,20 +29,24 @@ class customers extends Controller
             'phone' => 'required|string|max:15',
         ]);
 
-        $data = \App\Models\customers::create($request->all());
-        return response()->json($data, 201);
+        $data = $request->all();
+      
+        $customer = Customer::create($data);
+        return response()->json($customer, 201);
     }
     public function update(Request $request, $id)
     {
-        $data = \App\Models\customers::find($id);
+        $data = Customer::find($id);
         if ($data) {
             $request->validate([
                 'name' => 'sometimes|required|string|max:255',
-                'address' => 'sometimes|required|string|max:255',
+                'address' => 'required|string|max:255',
                 'phone' => 'sometimes|required|string|max:15',
             ]);
 
-            $data->update($request->all());
+            $updateData = $request->all();
+           
+            $data->update($updateData);
             return response()->json($data);
         } else {
             return response()->json(['message' => 'Customer not found'], 404);
@@ -50,7 +54,7 @@ class customers extends Controller
     }
     public function destroy($id)
     {
-        $data = \App\Models\customers::find($id);
+        $data = Customer::find($id);
         if ($data) {
             $data->delete();
             return response()->json(['message' => 'Customer deleted']);
