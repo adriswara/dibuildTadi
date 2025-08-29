@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "41a25b87-51cf-43a6-8333-5de7a2391349",
+		"name": "dibuildtadi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30286025"
+	},
+	"item": [
+		{
+			"name": "getTransaksi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/sales_orders",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"sales_orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransaksi with filter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/sales_orders?customer_id=1&sales_id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"sales_orders"
+					],
+					"query": [
+						{
+							"key": "customer_id",
+							"value": "1"
+						},
+						{
+							"key": "sales_id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransaksi withTarget",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/sales_orders/withTarget",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"sales_orders",
+						"withTarget"
+					],
+					"query": [
+						{
+							"key": "sales_id",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransaksi withTarget Monthly",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/sales_orders/withTargetMonthly?month=7&year=2022",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"sales_orders",
+						"withTargetMonthly"
+					],
+					"query": [
+						{
+							"key": "month",
+							"value": "7"
+						},
+						{
+							"key": "year",
+							"value": "2022"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert sales_order_item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"quantity\": 1,\r\n  \"production_price\": \"09\",\r\n  \"selling_price\":\"100\",\r\n  \"product_id\":\"99\",\r\n  \"order_id\":\"900\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/sales_order_items",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"sales_order_items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insert sales_orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"reference_no\": 1,\r\n  \"sales_id\": \"09\",\r\n  \"customer_id\":\"100\"\r\n \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/sales_orders",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"sales_orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
