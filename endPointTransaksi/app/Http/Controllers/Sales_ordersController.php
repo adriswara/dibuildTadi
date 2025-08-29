@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Sales_orders;
 
-class sales_orders extends Controller
+class Sales_ordersController extends Controller
 {
     public function index(Request $request)
     {
@@ -81,10 +82,7 @@ class sales_orders extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|integer|exists:products,id',
-
-        ]);
+      
 
         $data = \App\Models\sales_orders::create($request->all());
         return response()->json($data, 201);

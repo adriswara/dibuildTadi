@@ -4,17 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\products;
 
-class products extends Controller
+class ProductsControllers extends Controller
 {
     public function index()
     {
-        $data = \App\Models\products::all();
+        $data = Products::all();
         return response()->json($data);
     }
     public function show($id)
     {
-        $data = \App\Models\products::find($id);
+        $data = Products::find($id);
         if ($data) {
             return response()->json($data);
         } else {
@@ -29,12 +30,12 @@ class products extends Controller
             'selling_price' => 'required|integer',
         ]);
 
-        $data = \App\Models\products::create($request->all());
+        $data = Products::create($request->all());
         return response()->json($data, 201);
     }
     public function update(Request $request, $id)
     {
-        $data = \App\Models\products::find($id);
+        $data = Products::find($id);
         if ($data) {
             $request->validate([
                 'name' => 'sometimes|required|string|max:255',
@@ -50,7 +51,7 @@ class products extends Controller
     }
     public function destroy($id)
     {
-        $data = \App\Models\products::find($id);
+        $data = Products::find($id);
         if ($data) {
             $data->delete();
             return response()->json(['message' => 'Product deleted']);
