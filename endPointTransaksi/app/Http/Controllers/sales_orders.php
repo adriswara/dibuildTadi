@@ -7,9 +7,23 @@ use Illuminate\Http\Request;
 
 class sales_orders extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = \App\Models\sales_orders::all();
+
+        $threeyearsfromnow = now()->subYears(3);
+
+        $query = \App\Models\sales_orders::join('sales_order_items', 'sales_orders.id', '=', 'sales_order_items.order_id')
+            ->select('sales_orders.*', 'sales_order_items.*')
+            ->where('sales_orders.created_at', '>=', $threeyearsfromnow);
+
+        if ($request->has('customer_id')) {
+            $query->where('sales_orders.customer_id', $request->customer_id);
+        }
+        if ($request->has('sales_id')) {
+            $query->where('sales_orders.sales_id', $request->sales_id);
+        }
+
+        $data = $query->limit(10)->get();
         return response()->json($data);
     }
     public function show($id)
@@ -25,7 +39,7 @@ class sales_orders extends Controller
     {
         $request->validate([
             'name' => 'required|integer|exists:products,id',
-         
+
         ]);
 
         $data = \App\Models\sales_orders::create($request->all());
@@ -36,9 +50,9 @@ class sales_orders extends Controller
         $data = \App\Models\sales_orders::find($id);
         if ($data) {
             $request->validate([
-              
+
                 'name' => 'sometimes|required|integer|exists:products,id',
-               
+
             ]);
 
             $data->update($request->all());
